@@ -1,0 +1,119 @@
+.Container-pokemon {
+	display: grid;
+	grid-template-columns: 1fr 90% 1fr;
+	grid-template-areas: '. Card-container .';
+	padding: 3rem;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+.Container-pokemon-info {
+	grid-area: Card-container;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-areas: '. Name Name .' 'Img Img Info Info' '. evolution evolution .';
+	border-radius: 1rem;
+	background-color: #f5f5f5;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+	width: 100%;
+	padding: 2rem;
+}
+
+.Container-pokemon-name {
+	grid-area: Name;
+	color: #000;
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+.Container-pokemon-image {
+	grid-area: Img;
+	margin: 1rem auto;
+}
+
+.container-info {
+	grid-area: Info;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas: 'description description description' 'type . .' 'categories categories categories' 'stats stats stats';
+	border-radius: 1rem;
+	background-color: #f5f5f5;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+	padding: 2rem;
+}
+
+.description {
+	grid-area: description;
+	color: #000;
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+.container-types {
+	grid-area: type;
+}
+
+.Card-types {
+	display: inline-block;
+	font-size: 1.2rem;
+	text-align: center;
+	font-weight: bold;
+	color: #fff;
+	padding: 0.3rem 0.5rem;
+	margin: 1rem 0.3rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+	height: max-content;
+}
+
+.types {
+	margin-bottom: 0;
+}
+
+.categories {
+	grid-area: categories;
+}
+
+.categories-title,
+.stats-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+ul {
+	display: inline-block;
+	margin-left: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+ul > li {
+	list-style: none;
+	margin-right: 1rem;
+}
+
+ul > li > span {
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	font-size: 1.2rem;
+	clear: both;
+	float: left;
+}
+
+.abilities {
+	margin-bottom: 0;
+}
+
+.stats {
+	grid-area: stats;
+}
+
+.container-evolution {
+	grid-area: evolution;
+}
+
+.evolution-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
