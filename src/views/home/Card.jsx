@@ -13,6 +13,7 @@ const Card = ({ id, name, img, types }) => {
 					<div className="Card-types-container">
 						{types.map((type) => (
 							<p
+								key={name + type.type.name}
 								className="Card-types"
 								style={{ backgroundColor: colours[type.type.name] }}
 							>

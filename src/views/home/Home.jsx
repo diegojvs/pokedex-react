@@ -39,6 +39,7 @@ const Home = () => {
 			<div className="Container-cards">
 				{pokemons?.map((pokemon) => (
 					<Card
+						key={pokemon.id}
 						id={pokemon.id}
 						name={pokemon.name}
 						img={pokemon.img}

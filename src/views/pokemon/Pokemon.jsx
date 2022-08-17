@@ -6,6 +6,7 @@ import './pokemon.css';
 const Pokemon = () => {
 	const [poke, setPoke] = useState([]);
 	const [description, setDescription] = useState([]);
+	const [evolution, setEvolution] = useState([]);
 	let { pokemon } = useParams();
 
 	const getPokemon = async () => {
@@ -18,6 +19,9 @@ const Pokemon = () => {
 		const data2 = await res2.json();
 		data2.flavor_text_entries = await data2.flavor_text_entries[0].flavor_text;
 		setDescription(data2);
+		const res3 = await fetch(data2.evolution_chain.url);
+		const data3 = await res3.json();
+		setEvolution(data3);
 	};
 
 	useEffect(() => {
@@ -76,7 +80,7 @@ const Pokemon = () => {
 						<h3>Stats</h3>
 						<ul>
 							{poke?.stats?.map((stat) => (
-								<li>
+								<li key={stat.stat.name}>
 									<span className="stats-title">{stat.stat.name}</span>
 									<span>{stat.base_stat}</span>
 								</li>
@@ -86,7 +90,25 @@ const Pokemon = () => {
 				</div>
 				<div className="container-evolution">
 					<h3 className="evolution-title">Evolutions</h3>
-					<div className="evolutions"></div>
+					<div className="evolutions">
+						{evolution?.chain && <p> {evolution?.chain.species.name}</p>}
+						{evolution?.chain &&
+							evolution?.chain.evolves_to.map((evo, index) => (
+								<p>
+									evo {index} : {evo.species.name}
+								</p>
+								// evo.evolves_to
+								// 	? evo.evolves_to.map((evo1) => <p>{evo1.species.name}</p>)
+								// 	: null
+							))}
+						{evolution?.chain?.evolves_to?.map((evo) => {
+							{
+								return evo?.evolves_to?.map((evo1) => (
+									<p>{evo1.species.name}</p>
+								));
+							}
+						})}
+					</div>
 				</div>
 			</div>
 		</div>
