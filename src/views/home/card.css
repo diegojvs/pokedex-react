@@ -7,6 +7,17 @@
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
+@media only screen and (max-width: 600px) {
+	.Card {
+		width: 100%;
+		height: max-content;
+		margin: 0.5rem;
+		/* border-radius: 0.5rem;
+		background-color: #f5f5f5;
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); */
+	}
+}
+
 .Card-number {
 	text-align: start;
 	font-weight: bold;

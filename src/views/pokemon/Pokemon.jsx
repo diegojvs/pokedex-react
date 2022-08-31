@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import colours from './../../utils/colors';
 import './pokemon.css';
+import Evolutions from './components/evolutions';
 
 const Pokemon = () => {
 	const [poke, setPoke] = useState([]);
@@ -10,18 +11,23 @@ const Pokemon = () => {
 	let { pokemon } = useParams();
 
 	const getPokemon = async () => {
-		const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
-		const data = await res.json();
-		setPoke(data);
-		const res2 = await fetch(
-			`https://pokeapi.co/api/v2/pokemon-species/${pokemon}`
-		);
-		const data2 = await res2.json();
-		data2.flavor_text_entries = await data2.flavor_text_entries[0].flavor_text;
-		setDescription(data2);
-		const res3 = await fetch(data2.evolution_chain.url);
-		const data3 = await res3.json();
-		setEvolution(data3);
+		try {
+			const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+			const data = await res.json();
+			setPoke(data);
+			const res2 = await fetch(
+				`https://pokeapi.co/api/v2/pokemon-species/${pokemon}`
+			);
+			const data2 = await res2.json();
+			data2.flavor_text_entries = await data2.flavor_text_entries[0]
+				.flavor_text;
+			setDescription(data2);
+			const res3 = await fetch(data2.evolution_chain.url);
+			const data3 = await res3.json();
+			setEvolution(data3);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {
@@ -88,28 +94,7 @@ const Pokemon = () => {
 						</ul>
 					</div>
 				</div>
-				<div className="container-evolution">
-					<h3 className="evolution-title">Evolutions</h3>
-					<div className="evolutions">
-						{evolution?.chain && <p> {evolution?.chain.species.name}</p>}
-						{evolution?.chain &&
-							evolution?.chain.evolves_to.map((evo, index) => (
-								<p>
-									evo {index} : {evo.species.name}
-								</p>
-								// evo.evolves_to
-								// 	? evo.evolves_to.map((evo1) => <p>{evo1.species.name}</p>)
-								// 	: null
-							))}
-						{evolution?.chain?.evolves_to?.map((evo) => {
-							{
-								return evo?.evolves_to?.map((evo1) => (
-									<p>{evo1.species.name}</p>
-								));
-							}
-						})}
-					</div>
-				</div>
+				{/* {evolution?.chain && <Evolutions evolution={evolution} />} */}
 			</div>
 		</div>
 	);

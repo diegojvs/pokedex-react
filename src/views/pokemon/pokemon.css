@@ -3,20 +3,44 @@
 	grid-template-columns: 1fr 90% 1fr;
 	grid-template-areas: '. Card-container .';
 	padding: 3rem;
-	margin-top: 2rem;
-	margin-bottom: 2rem;
+	margin: 2rem auto;
 }
 
 .Container-pokemon-info {
 	grid-area: Card-container;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-template-areas: '. Name Name .' 'Img Img Info Info' '. evolution evolution .';
+	grid-template-areas: '. Name Name .' 'Img Img Info Info';
 	border-radius: 1rem;
 	background-color: #f5f5f5;
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-	width: 100%;
 	padding: 2rem;
+}
+
+@media only screen and (max-width: 992px) {
+	.Container-pokemon-info {
+		grid-template-columns: 1fr 95% 1fr;
+		grid-template-areas: '. Name .' '. Img .' '. Info .';
+		width: auto;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.Container-pokemon {
+		grid-template-columns: 1fr;
+		grid-template-areas: 'Card-container';
+		padding: 1rem;
+		margin: 1rem auto;
+	}
+
+	.Container-pokemon-info {
+		padding: 1rem;
+	}
+
+	.container-info {
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 
 .Container-pokemon-name {
@@ -31,15 +55,21 @@
 	margin: 1rem auto;
 }
 
+img {
+	width: 100%;
+	height: auto;
+}
+
 .container-info {
 	grid-area: Info;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-areas: 'description description description' 'type . .' 'categories categories categories' 'stats stats stats';
+	grid-template-areas: 'description description description' 'type type type' 'categories categories categories' 'stats stats stats';
 	border-radius: 1rem;
 	background-color: #f5f5f5;
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 	padding: 2rem;
+	height: auto;
 }
 
 .description {
@@ -109,11 +139,11 @@ ul > li > span {
 	grid-area: stats;
 }
 
-.container-evolution {
+/* .container-evolution {
 	grid-area: evolution;
 }
 
 .evolution-title {
 	font-size: 1.2rem;
 	font-weight: bold;
-}
+} */
