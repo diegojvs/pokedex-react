@@ -8,21 +8,30 @@ const Pokemon = () => {
 	const [poke, setPoke] = useState([]);
 	const [description, setDescription] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [notFound, setNotFound] = useState(false);
 	const { pokemon } = useParams();
 
 	const getPokemon = async () => {
 		try {
-			const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
-			const data = await res.json();
-			setPoke(data);
-			const res2 = await fetch(
-				`https://pokeapi.co/api/v2/pokemon-species/${pokemon}`
-			);
-			const data2 = await res2.json();
-			data2.flavor_text_entries = await data2.flavor_text_entries[0]
-				.flavor_text;
-			setDescription(data2);
-			setLoading(false);
+			let http = new XMLHttpRequest();
+			http.open('HEAD', `https://pokeapi.co/api/v2/pokemon/${pokemon}`, false);
+			http.send();
+			if (http.status === 404) {
+				setNotFound(true);
+				setLoading(false);
+			} else {
+				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+				const data = await res.json();
+				setPoke(data);
+				const res2 = await fetch(
+					`https://pokeapi.co/api/v2/pokemon-species/${pokemon}`
+				);
+				const data2 = await res2.json();
+				data2.flavor_text_entries = await data2.flavor_text_entries[0]
+					.flavor_text;
+				setDescription(data2);
+				setLoading(false);
+			}
 			// const res3 = await fetch(data2.evolution_chain.url);
 			// const data3 = await res3.json();
 			// setEvolution(data3);
@@ -37,7 +46,11 @@ const Pokemon = () => {
 
 	return (
 		<>
-			{loading ? (
+			{notFound ? (
+				<div className="Container-notFound">
+					<h1 className="Title-notFound">Pokemon not found</h1>
+				</div>
+			) : loading ? (
 				<Spinner />
 			) : (
 				<div className="Container-pokemon">

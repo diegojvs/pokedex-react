@@ -1,3 +1,15 @@
+.Container-notFound {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.Title-notFound {
+	text-align: center;
+	font-size: 2rem;
+	font-weight: bold;
+}
+
 .Container-pokemon {
 	display: grid;
 	grid-template-columns: 1fr 90% 1fr;
