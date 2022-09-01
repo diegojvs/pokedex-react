@@ -1,9 +1,12 @@
 import './header.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 	return (
 		<header className="Header">
-			<h1 className="Header-title">Pokédex</h1>
+			<Link to="/" className="Header-link">
+				<h1 className="Header-title">Pokédex</h1>
+			</Link>
 		</header>
 	);
 };
