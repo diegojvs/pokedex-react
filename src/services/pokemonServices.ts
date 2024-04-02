@@ -15,4 +15,13 @@ export class PokemonServices {
 			console.error("Error: ", error);
 		}
 	}
+
+	async getPokemon(name: string | number) {
+		try {
+			const response = await fetch(pokeApiUrls.getPokemon(name));
+			return response.json();
+		} catch (error) {
+			console.error("Error: ", error);
+		}
+	}
 }
