@@ -1,4 +1,5 @@
 import { listPokemon } from "@src/models/listPokemon";
+import { Pokemon } from "@src/models/pokemon";
 import { pokeApiUrls } from "@src/environment/environment";
 
 export class PokemonServices {
@@ -16,7 +17,7 @@ export class PokemonServices {
 		}
 	}
 
-	async getPokemon(name: string | number) {
+	async getPokemon(name: string | number): Promise<Pokemon | undefined> {
 		try {
 			const response = await fetch(pokeApiUrls.getPokemon(name));
 			return response.json();
