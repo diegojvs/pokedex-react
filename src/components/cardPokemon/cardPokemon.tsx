@@ -11,7 +11,8 @@ const CardPokemon = (pokemon: Pokemon) => {
 			<img
 				src={pokemon.sprites.other?.home["front_default"]}
 				alt={pokemon.name}
-				className="mx-auto"
+				className="mx-auto aspect-square max-h-64 max-w-64 max-[320px]:max-h-40 max-[320px]:max-w-40"
+				loading="lazy"
 			/>
 			<h2 className="text-center text-2xl font-bold">{pokemon.name}</h2>
 			<div className="flex justify-center">
