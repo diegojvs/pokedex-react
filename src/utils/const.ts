@@ -62,3 +62,24 @@ export const colorsType: { [key: string]: string } = {
 	steel: "bg-gray-500",
 	fairy: "bg-pink-300",
 };
+
+export const types: string[] = [
+	"normal",
+	"fire",
+	"water",
+	"electric",
+	"grass",
+	"ice",
+	"fighting",
+	"poison",
+	"ground",
+	"flying",
+	"psychic",
+	"bug",
+	"rock",
+	"ghost",
+	"dragon",
+	"dark",
+	"steel",
+	"fairy",
+];
