@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { PokemonServices } from "@src/services/pokemonServices";
 import { genPokemon } from "@src/utils/const";
 import { Pokemon } from "@src/models/pokemon";
 import Loader from "../loader/loader";
 import CardPokemon from "../cardPokemon/cardPokemon";
 import useFilter from "@src/hooks/useFilter";
+import usePokemon from "@src/hooks/usePokemon";
 
 const ContainerCardsPokemon = () => {
-	const [pokemon, setPokemon] = useState<Pokemon[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(false);
 	const pokemonServices = new PokemonServices();
 	const startAndEndGeneration = genPokemon;
 	const { filterPokemon } = useFilter();
+	const { pokemon, setPokemon, loading, setLoading } = usePokemon();
 
 	const getPokemon = async (name: string | number) => {
 		const pokemon = await pokemonServices.getPokemon(name);
@@ -22,15 +21,6 @@ const ContainerCardsPokemon = () => {
 
 	const getListPokemon = async () => {
 		try {
-			const listPokemon = await pokemonServices.getListPokemon(
-				0,
-				startAndEndGeneration[startAndEndGeneration.length - 1].end,
-			);
-
-			if (!listPokemon) {
-				return;
-			}
-
 			const pokemonList: Pokemon[] = [];
 
 			// create array of n numbers from 0 to startAndEndGeneration[0].end
