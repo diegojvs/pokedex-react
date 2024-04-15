@@ -18,7 +18,7 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
 	const [filter, setFilter] = useState<FilerType>({
 		types: types,
-		generations: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+		generations: [0],
 	});
 
 	return (
