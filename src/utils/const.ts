@@ -63,7 +63,7 @@ export const genPokemon: GenPokemon[] = [
 ];
 
 export const colorsType: { [key: string]: string } = {
-	normal: "bg-gray-500",
+	normal: "bg-gray-400",
 	fire: "bg-red-500",
 	water: "bg-blue-500",
 	electric: "bg-yellow-300",
