@@ -99,7 +99,7 @@ const SelectType = ({
 				</button>
 			</div>
 			{open && (
-				<div className="absolute z-10 w-full p-0 [&>*:first-child]:rounded-t-2xl [&>*:first-child]:border-t [&>*:last-child]:rounded-b-2xl [&>*]:border [&>*]:border-t-0 [&>*]:border-transparent">
+				<div className="w-full p-0 [&>*:first-child]:rounded-t-2xl [&>*:first-child]:border-t [&>*:last-child]:rounded-b-2xl [&>*]:border [&>*]:border-t-0 [&>*]:border-transparent">
 					{options.map((type) => (
 						<div
 							key={type}
