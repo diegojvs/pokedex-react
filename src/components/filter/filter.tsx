@@ -2,13 +2,92 @@ import useFilter from "@src/hooks/useFilter";
 import SelectType from "../selectType/selectType";
 import { useState, useRef } from "react";
 import "./filter.css";
+import usePokemon from "@src/hooks/usePokemon";
+import { PokemonServices } from "@src/services/pokemonServices";
+import { genPokemon } from "@src/utils/const";
+import { Pokemon } from "@src/models/pokemon";
+import SelectGeneration from "../selectGeneration/selectGeneration";
 
 const Filter = () => {
 	const { filter, setFilter } = useFilter();
 	const [open, setOpen] = useState(false);
-	const [isAnimating, setIsAnimating] = useState(false);
 	const filterRef = useRef<HTMLDivElement>(null);
-	const spaceRef = useRef<HTMLDivElement>(null);
+	const {
+		pokemon,
+		setPokemon,
+		generationPokemonFetched,
+		setGenerationPokemonFetched,
+	} = usePokemon();
+	const pokemonServices = new PokemonServices();
+
+	const getPokemon = async (name: string | number) => {
+		const pokemon = await pokemonServices.getPokemon(name);
+
+		return pokemon;
+	};
+
+	const handleGeneration = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = e.target;
+		const generation = genPokemon.find((gen) => gen.name === value);
+
+		if (!generation) {
+			return;
+		}
+
+		if (!generationPokemonFetched.includes(Number(generation.value))) {
+			const array = Array.from(
+				{
+					length:
+						genPokemon[Number(generation.value)].end -
+						genPokemon[Number(generation.value)].start,
+				},
+				(_, index) => index + genPokemon[Number(generation.value)].start,
+			);
+
+			const response = await Promise.all(
+				array.map(async (number) => {
+					return getPokemon(number);
+				}),
+			);
+
+			if (!response) {
+				return;
+			}
+
+			const listPokemon: Pokemon[] = [];
+
+			response.forEach((pokemon) => {
+				if (!pokemon) {
+					return;
+				}
+
+				listPokemon.push(pokemon);
+			});
+
+			const pokemonListSorted = [...pokemon, ...listPokemon];
+
+			pokemonListSorted.sort((a, b) => a.id - b.id);
+
+			setPokemon(pokemonListSorted);
+			setGenerationPokemonFetched([
+				...generationPokemonFetched,
+				Number(generation.value),
+			]);
+		}
+		setFilter({
+			...filter,
+			generations: filter.generations.includes(Number(generation.value))
+				? filter.generations.filter((gen) => gen !== Number(generation.value))
+				: [...filter.generations, Number(generation.value)],
+		});
+	};
+
+	const removeGeneration = (generation: number) => {
+		setFilter({
+			...filter,
+			generations: filter.generations.filter((gen) => gen !== generation),
+		});
+	};
 
 	const handleTypesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
@@ -24,16 +103,6 @@ const Filter = () => {
 		setFilter({
 			...filter,
 			types: filter.types.filter((item) => item !== type),
-		});
-	};
-
-	const handleGenerationsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = e.target;
-		setFilter({
-			...filter,
-			generations: filter.generations.includes(Number(value))
-				? filter.generations.filter((gen) => gen !== Number(value))
-				: [...filter.generations, Number(value)],
 		});
 	};
 
@@ -80,7 +149,7 @@ const Filter = () => {
 						className="h-screen w-1/4 md:w-1/2"
 						onClick={handleFilters}
 					></div>
-					<div className="flex w-3/4 flex-col gap-4 bg-[rgba(255,255,255,0.6)] p-4 backdrop-blur-lg md:w-1/2">
+					<div className="flex w-3/4 flex-col gap-4 overflow-y-auto bg-[rgba(150,150,150,0.3)] p-4 backdrop-blur-lg md:w-1/2">
 						<button onClick={handleFilters} className="self-end">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -97,11 +166,19 @@ const Filter = () => {
 								/>
 							</svg>
 						</button>
-						<h3 className="text-2xl font-black text-black">Types:</h3>
+						<h3 className="text-2xl font-black text-white">Types:</h3>
 						<SelectType
 							handleTypesChange={handleTypesChange}
 							removeType={removeType}
 							filteredTypes={filter.types}
+						/>
+						<h3 className="text-2xl font-black text-white">Generations:</h3>
+						<SelectGeneration
+							handleGenerationChange={handleGeneration}
+							removeGeneration={removeGeneration}
+							filteredGeneration={genPokemon.filter((gen) =>
+								filter.generations.includes(gen.value),
+							)}
 						/>
 					</div>
 				</div>
