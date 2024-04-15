@@ -1,44 +1,64 @@
-interface GenPokemon {
+export interface GenPokemon {
 	start: number;
 	end: number;
+	name: string;
+	value: number;
 }
 
 export const genPokemon: GenPokemon[] = [
 	{
 		start: 1,
 		end: 151,
+		name: "Generation I",
+		value: 0,
 	},
 	{
 		start: 152,
 		end: 251,
+		name: "Generation II",
+		value: 1,
 	},
 	{
 		start: 252,
 		end: 386,
+		name: "Generation III",
+		value: 2,
 	},
 	{
 		start: 387,
 		end: 493,
+		name: "Generation IV",
+		value: 3,
 	},
 	{
 		start: 494,
 		end: 649,
+		name: "Generation V",
+		value: 4,
 	},
 	{
 		start: 650,
 		end: 721,
+		name: "Generation VI",
+		value: 5,
 	},
 	{
 		start: 722,
 		end: 809,
+		name: "Generation VII",
+		value: 6,
 	},
 	{
 		start: 810,
 		end: 905,
+		name: "Generation VIII",
+		value: 7,
 	},
 	{
 		start: 906,
 		end: 1025,
+		name: "Generation IX",
+		value: 8,
 	},
 ];
 
