@@ -39,7 +39,8 @@ const Filter = () => {
 				{
 					length:
 						genPokemon[Number(generation.value)].end -
-						genPokemon[Number(generation.value)].start,
+						genPokemon[Number(generation.value)].start +
+						1,
 				},
 				(_, index) => index + genPokemon[Number(generation.value)].start,
 			);
