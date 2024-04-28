@@ -16,6 +16,8 @@ const ContainerCardsPokemon = () => {
 		setPokemon,
 		loading,
 		setLoading,
+		error,
+		setError,
 		generationPokemonFetched,
 		setGenerationPokemonFetched,
 	} = usePokemon();
@@ -47,6 +49,8 @@ const ContainerCardsPokemon = () => {
 			);
 
 			if (!response) {
+				setLoading(false);
+				setError(true);
 				return;
 			}
 
@@ -119,21 +123,39 @@ const ContainerCardsPokemon = () => {
 		}
 	};
 
+	const tryAgain = () => {
+		setError(false);
+		setLoading(true);
+		getListPokemon();
+	};
+
 	useEffect(() => {
 		getListPokemon();
 	}, []);
 
 	return (
-		<div className="mx-auto flex min-h-dvh w-[80%] flex-col items-center justify-center pt-24">
-			{loading ? (
+		<div className="mx-auto flex min-h-dvh w-4/5 flex-col items-center justify-center pt-24">
+			{loading && !error ? (
 				<div className="flex h-full w-full items-center justify-center">
 					<Loader />
+				</div>
+			) : error ? (
+				<div className="m-4 flex min-h-48 w-full flex-col items-center justify-center rounded-2xl bg-[#f5f5f5] p-4">
+					<h2 className="lg:5xl text-pretty text-center text-4xl font-black">
+						There was an error fetching the data
+					</h2>
+					<button
+						className="my-8 rounded-lg border border-slate-50 bg-red-500 px-4 py-2 font-bold text-white hover:scale-[102%]"
+						onClick={tryAgain}
+					>
+						Try again
+					</button>
 				</div>
 			) : (
 				<>
 					<div className="grid grid-cols-1 gap-8 p-4 md:grid-cols-2 lg:grid-cols-3">
 						{filterPokemon(pokemon).map((pokemon) => (
-							<CardPokemon key={pokemon.id} {...pokemon} />
+							<CardPokemon key={pokemon.id} pokemon={pokemon} />
 						))}
 					</div>
 					{!generationPokemonFetched.some((gen) => gen === 8) ? (
