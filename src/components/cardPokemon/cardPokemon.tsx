@@ -2,7 +2,11 @@ import { Pokemon } from "@src/models/pokemon";
 import TypeLabel from "@src/components/typeLabel/typeLabel";
 import { Link } from "react-router-dom";
 
-const CardPokemon = (pokemon: Pokemon) => {
+interface CardPokemonProps {
+	pokemon: Pokemon;
+}
+
+const CardPokemon: React.FC<CardPokemonProps> = ({ pokemon }) => {
 	return (
 		<Link to={`/${pokemon.name}`}>
 			<div
