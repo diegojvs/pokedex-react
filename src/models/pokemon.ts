@@ -2,6 +2,7 @@ import { Ability } from "@src/models/ability";
 import { Sprites } from "@src/models/sprites";
 import { Stat } from "@src/models/stat";
 import { Type } from "@src/models/type";
+import { Result } from "@src/models/result";
 
 export interface Pokemon {
 	abilities: Ability[];
@@ -13,4 +14,5 @@ export interface Pokemon {
 	stats: Stat[];
 	types: Type[];
 	weight: number;
+	species: Result;
 }
