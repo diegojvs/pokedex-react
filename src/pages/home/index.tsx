@@ -4,6 +4,7 @@ import { FilterProvider } from "@src/context/filters";
 import { PokemonProvider } from "@src/context/pokemon";
 
 const Home = () => {
+	document.title = "Pokédex";
 	return (
 		<>
 			<PokemonProvider>
