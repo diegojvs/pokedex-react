@@ -67,46 +67,75 @@ const PokemonDetails = () => {
 			pokemon: undefined,
 		};
 
-		if (evolutionChainPokemonObject.evolves_to.length === 0) {
-			evolutionChainPokemonObject.pokemon = pokemonResponse;
-			setEvolutionChainPokemon(evolutionChainPokemonObject);
-		} else {
-			const firstPokemon = await pokemonServices.getPokemon(
-				evolutionChainPokemonObject.species.name,
+		const firstPokemon = await pokemonServices.getPokemon(
+			evolutionChainPokemonObject.species.name,
+		);
+
+		if (!firstPokemon) {
+			const firstPokemonSpecies = await pokemonServices.getSpecies(
+				evolutionChainPokemonObject.species.url,
 			);
 
-			if (!firstPokemon) {
+			if (!firstPokemonSpecies) {
 				setLoading(false);
 				setError(true);
 				return;
 			}
-			evolutionChainPokemonObject.pokemon = firstPokemon;
 
-			for (let i = 0; i < evolutionChainPokemonObject.evolves_to.length; i++) {
-				const evolution = evolutionChainPokemonObject.evolves_to[i];
-				const response = await pokemonServices.getPokemon(
-					evolution.species.name,
+			const firstPokemon2 = await pokemonServices.getPokemon(
+				firstPokemonSpecies.id,
+			);
+
+			if (!firstPokemon2) {
+				setLoading(false);
+				setError(true);
+				return;
+			}
+
+			evolutionChainPokemonObject.pokemon = firstPokemon2;
+		} else {
+			evolutionChainPokemonObject.pokemon = firstPokemon;
+		}
+
+		for (const evolution of evolutionChainPokemonObject.evolves_to) {
+			const response = await pokemonServices.getPokemon(evolution.species.name);
+			if (!response) {
+				const responsePokemonSpecies = await pokemonServices.getSpecies(
+					evolution.species.url,
 				);
-				if (!response) return;
+
+				if (!responsePokemonSpecies) continue;
+
+				const responsePokemon = await pokemonServices.getPokemon(
+					responsePokemonSpecies.id,
+				);
+
+				if (!responsePokemon) continue;
+
+				evolution.pokemon = responsePokemon;
+			} else {
 				evolution.pokemon = response;
-				for (let j = 0; j < evolution.evolves_to.length; j++) {
-					const evolution =
-						evolutionChainPokemonObject.evolves_to[i].evolves_to[j];
-					const response = await pokemonServices.getPokemon(
-						evolution.species.name,
+			}
+			for (const evolution2 of evolution.evolves_to) {
+				const response = await pokemonServices.getPokemon(
+					evolution2.species.name,
+				);
+				if (!response) {
+					const responsePokemonSpecies = await pokemonServices.getSpecies(
+						evolution2.species.url,
 					);
-					if (!response) return;
-					evolution.pokemon = response;
-					for (let k = 0; k < evolution.evolves_to.length; k++) {
-						const evolution =
-							evolutionChainPokemonObject.evolves_to[i].evolves_to[j]
-								.evolves_to[k];
-						const response = await pokemonServices.getPokemon(
-							evolution.species.name,
-						);
-						if (!response) return;
-						evolution.pokemon = response;
-					}
+
+					if (!responsePokemonSpecies) continue;
+
+					const responsePokemon = await pokemonServices.getPokemon(
+						responsePokemonSpecies.id,
+					);
+
+					if (!responsePokemon) continue;
+
+					evolution2.pokemon = responsePokemon;
+				} else {
+					evolution2.pokemon = response;
 				}
 			}
 		}
