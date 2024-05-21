@@ -1,13 +1,18 @@
 import CardPokemon from "./cardPokemon";
-import { render, screen } from "@testing-library/react";
+import PokemonDetails from "@components/pokemonDetails/pokemonDetails";
+import { act, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { bulbasaur } from "./bulbasaur";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 describe("CardPokemon", () => {
 	beforeEach(() => {
 		render(
 			<MemoryRouter>
-				<CardPokemon pokemon={bulbasaur} />
+				<Routes>
+					<Route path="/" element={<CardPokemon pokemon={bulbasaur} />} />
+					<Route path="/:pokemonName" element={<PokemonDetails />} />
+				</Routes>
 			</MemoryRouter>,
 		);
 	});
@@ -33,5 +38,14 @@ describe("CardPokemon", () => {
 	test("should render the id", () => {
 		const id = screen.getByText(`${bulbasaur.id}`);
 		expect(id).toBeDefined();
+	});
+
+	test("should open the component PokemonDetails when clicked", async () => {
+		await act(async () => {
+			await userEvent.click(screen.getByRole("link"));
+		});
+		await waitFor(() => {
+			expect(screen.getByText("Description")).toBeDefined();
+		});
 	});
 });
