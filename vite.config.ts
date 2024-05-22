@@ -14,6 +14,7 @@ export default defineConfig({
 			"@utils": "/src/utils",
 			"@models": "/src/models",
 			"@services": "/src/services",
+			"@mocks": "/src/mocks",
 		},
 	},
 	test: {
