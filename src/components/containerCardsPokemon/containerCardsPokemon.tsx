@@ -134,13 +134,22 @@ const ContainerCardsPokemon = () => {
 	}, []);
 
 	return (
-		<div className="mx-auto flex min-h-dvh w-4/5 flex-col items-center justify-center pt-24">
+		<div
+			className="mx-auto flex min-h-dvh w-4/5 flex-col items-center justify-center pt-24"
+			data-testid="containerComponent"
+		>
 			{loading && !error ? (
-				<div className="flex h-full w-full items-center justify-center">
+				<div
+					className="flex h-full w-full items-center justify-center"
+					data-testid="loader"
+				>
 					<Loader />
 				</div>
 			) : error ? (
-				<div className="m-4 flex min-h-48 w-full flex-col items-center justify-center rounded-2xl bg-[#f5f5f5] p-4">
+				<div
+					className="m-4 flex min-h-48 w-full flex-col items-center justify-center rounded-2xl bg-[#f5f5f5] p-4"
+					data-testid="error"
+				>
 					<h2 className="lg:5xl text-pretty text-center text-4xl font-black">
 						There was an error fetching the data
 					</h2>
@@ -153,7 +162,10 @@ const ContainerCardsPokemon = () => {
 				</div>
 			) : (
 				<>
-					<div className="grid grid-cols-1 gap-8 p-4 md:grid-cols-2 lg:grid-cols-3">
+					<div
+						className="grid grid-cols-1 gap-8 p-4 md:grid-cols-2 lg:grid-cols-3"
+						data-testid="pokemonList"
+					>
 						{filterPokemon(pokemon).map((pokemon) => (
 							<CardPokemon key={pokemon.id} pokemon={pokemon} />
 						))}
