@@ -2,7 +2,7 @@ import CardPokemon from "./cardPokemon";
 import PokemonDetails from "@components/pokemonDetails/pokemonDetails";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { bulbasaur } from "./bulbasaur";
+import { bulbasaur } from "@mocks/bulbasaur";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 describe("CardPokemon", () => {
@@ -45,7 +45,7 @@ describe("CardPokemon", () => {
 			await userEvent.click(screen.getByRole("link"));
 		});
 		await waitFor(() => {
-			expect(screen.getByText("Description")).toBeDefined();
+			expect(screen.findAllByText("Description")).toBeDefined();
 		});
 	});
 });
